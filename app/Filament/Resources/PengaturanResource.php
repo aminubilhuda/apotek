@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use BackedEnum;
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Forms\Form;
+use App\Models\Pengaturan;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use App\Filament\Resources\PengaturanResource\Pages;
+use App\Filament\Resources\PengaturanResource\RelationManagers;
+use App\Filament\Resources\PengaturanResource\Pages\ManagePengaturans;
+
+class PengaturanResource extends Resource
+{
+    protected static ?string $model = Pengaturan::class;
+
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-cog';
+
+    protected static ?string $navigationLabel = 'Pengaturan';
+
+    protected static ?string $pluralModelLabel = 'Pengaturan';
+
+    protected static ?string $modelLabel = 'Pengaturan';
+
+    public static function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Forms\Components\TextInput::make('key')
+                    ->label('Kunci')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('value')
+                    ->label('Nilai')
+                    ->nullable(),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('key')
+                    ->label('Kunci')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('value')
+                    ->label('Nilai')
+                    ->limit(50),
+                TextColumn::make('created_at')
+                    ->label('Dibuat Pada')
+                    ->dateTime('d/m/Y H:i:s')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
+                    ->label('Diperbarui Pada')
+                    ->dateTime('d/m/Y H:i:s')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ManagePengaturans::route('/'),
+        ];
+    }
+}
