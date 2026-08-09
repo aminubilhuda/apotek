@@ -2,24 +2,22 @@
 
 namespace App\Filament\Resources\Pelanggans;
 
-use BackedEnum;
-use App\Models\Pelanggan;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
+use App\Filament\Resources\Pelanggans\Pages\CreatePelanggan;
 use App\Filament\Resources\Pelanggans\Pages\EditPelanggan;
 use App\Filament\Resources\Pelanggans\Pages\ListPelanggans;
-use App\Filament\Resources\Pelanggans\Pages\CreatePelanggan;
-use App\Filament\Resources\Pelanggans\Schemas\PelangganForm;
-use App\Filament\Resources\Pelanggans\Tables\PelanggansTable;
+use App\Models\Pelanggan;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class PelangganResource extends Resource
 {
@@ -52,12 +50,11 @@ class PelangganResource extends Resource
                 TextColumn::make('nama_pelanggan')->searchable(),
                 TextColumn::make('no_telp')->label('No. Telepon'),
                 TextColumn::make('jenis_kelamin')
-                    ->formatStateUsing(fn (string $state): string => 
-                        match ($state) {
-                            'L' => 'Laki-laki',
-                            'P' => 'Perempuan',
-                            default => $state,
-                        }),
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'L' => 'Laki-laki',
+                        'P' => 'Perempuan',
+                        default => $state,
+                    }),
                 TextColumn::make('tanggal_lahir')->date(),
                 TextColumn::make('created_at')->date(),
             ])

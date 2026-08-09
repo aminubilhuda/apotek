@@ -2,19 +2,18 @@
 
 namespace App\Filament\Resources\TransaksiPenjualans\RelationManagers;
 
-use App\Models\Obat;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
-use Filament\Forms\Components\Select;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Collection;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class DetailTransaksiRelationManager extends RelationManager
 {
@@ -91,22 +90,22 @@ class DetailTransaksiRelationManager extends RelationManager
                         if ($obat->stok < $data['jumlah']) {
                             throw new \Exception("Stok tidak mencukupi. Stok tersedia: {$obat->stok}");
                         }
-                        
+
                         // Set harga_satuan and calculate subtotal
                         $data['harga_satuan'] = $obat->harga_jual;
                         $data['subtotal'] = $obat->harga_jual * $data['jumlah'];
-                        
+
                         $detail = static::getModel()::create($data);
-                        
+
                         // Update stock
                         $obat->decrement('stok', $data['jumlah']);
-                        
+
                         // Update total in parent transaction
                         $transaksi = $detail->transaksi;
                         $transaksi->update([
-                            'total_harga' => $transaksi->detailTransaksi->sum('subtotal')
+                            'total_harga' => $transaksi->detailTransaksi->sum('subtotal'),
                         ]);
-                        
+
                         return $detail;
                     }),
             ])
@@ -119,24 +118,24 @@ class DetailTransaksiRelationManager extends RelationManager
                         if ($obat->stok < $additional) {
                             throw new \Exception("Stok tidak mencukupi. Stok tersedia: {$obat->stok}");
                         }
-                        
+
                         // Set harga_satuan and calculate subtotal
                         $data['harga_satuan'] = $obat->harga_jual;
                         $data['subtotal'] = $obat->harga_jual * $data['jumlah'];
-                        
+
                         $record->update($data);
-                        
+
                         // Update stock
                         if ($additional !== 0) {
                             $obat->increment('stok', -$additional);
                         }
-                        
+
                         // Update total in parent transaction
                         $transaksi = $record->transaksi;
                         $transaksi->update([
-                            'total_harga' => $transaksi->detailTransaksi->sum('subtotal')
+                            'total_harga' => $transaksi->detailTransaksi->sum('subtotal'),
                         ]);
-                        
+
                         return $record;
                     }),
                 DeleteAction::make()
@@ -149,7 +148,7 @@ class DetailTransaksiRelationManager extends RelationManager
                         // Update total in parent transaction
                         $transaksi = $record->transaksi;
                         $transaksi->update([
-                            'total_harga' => $transaksi->detailTransaksi->sum('subtotal')
+                            'total_harga' => $transaksi->detailTransaksi->sum('subtotal'),
                         ]);
                     }),
             ])
@@ -167,7 +166,7 @@ class DetailTransaksiRelationManager extends RelationManager
                         if ($records->isNotEmpty()) {
                             $transaksi = $records->first()->transaksi;
                             $transaksi->update([
-                                'total_harga' => $transaksi->detailTransaksi->sum('subtotal')
+                                'total_harga' => $transaksi->detailTransaksi->sum('subtotal'),
                             ]);
                         }
                     }),

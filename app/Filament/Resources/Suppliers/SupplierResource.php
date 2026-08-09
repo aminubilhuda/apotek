@@ -2,22 +2,20 @@
 
 namespace App\Filament\Resources\Suppliers;
 
-use BackedEnum;
-use App\Models\Supplier;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
+use App\Filament\Resources\Suppliers\Pages\CreateSupplier;
 use App\Filament\Resources\Suppliers\Pages\EditSupplier;
 use App\Filament\Resources\Suppliers\Pages\ListSuppliers;
-use App\Filament\Resources\Suppliers\Pages\CreateSupplier;
-use App\Filament\Resources\Suppliers\Schemas\SupplierForm;
-use App\Filament\Resources\Suppliers\Tables\SuppliersTable;
+use App\Models\Supplier;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class SupplierResource extends Resource
 {
@@ -30,12 +28,12 @@ class SupplierResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-        ->components([
-            TextInput::make('nama_supplier')->required(),
-            TextInput::make('no_telp'),
-            TextInput::make('email')->email(),
-            TextInput::make('alamat')->label('Alamat')->nullable(),
-        ]);
+            ->components([
+                TextInput::make('nama_supplier')->required(),
+                TextInput::make('no_telp'),
+                TextInput::make('email')->email(),
+                TextInput::make('alamat')->label('Alamat')->nullable(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -46,7 +44,7 @@ class SupplierResource extends Resource
                 TextColumn::make('no_telp'),
                 TextColumn::make('email'),
                 TextColumn::make('created_at')->date(),
-                
+
             ])
             ->filters([])
             ->recordActions([
@@ -54,9 +52,9 @@ class SupplierResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                DeleteBulkAction::make(),
-            ]),
-        ]);
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getRelations(): array

@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class DetailResep extends Model
 {
     protected $table = 'detail_resep';
+
     protected $primaryKey = 'id_detail_resep';
+
     protected $fillable = ['id_resep', 'id_obat', 'jumlah', 'dosis'];
 
     public function resep()

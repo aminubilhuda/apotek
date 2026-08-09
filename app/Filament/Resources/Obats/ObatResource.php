@@ -2,24 +2,22 @@
 
 namespace App\Filament\Resources\Obats;
 
-use BackedEnum;
-use App\Models\Obat;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
+use App\Filament\Resources\Obats\Pages\CreateObat;
 use App\Filament\Resources\Obats\Pages\EditObat;
 use App\Filament\Resources\Obats\Pages\ListObats;
-use App\Filament\Resources\Obats\Pages\CreateObat;
-use App\Filament\Resources\Obats\Schemas\ObatForm;
-use App\Filament\Resources\Obats\Tables\ObatsTable;
+use App\Models\Obat;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ObatResource extends Resource
 {
@@ -32,22 +30,22 @@ class ObatResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-        ->components([
-            TextInput::make('kode_obat')->required(),
-            TextInput::make('nama_obat')->required(),
-            TextInput::make('jenis_obat'),
-            TextInput::make('kategori'),
-            TextInput::make('satuan'),
-            TextInput::make('stok')->numeric()->default(0),
-            TextInput::make('harga_beli')->numeric()->prefix('Rp '),
-            TextInput::make('harga_jual')->numeric()->prefix('Rp '),
-            DatePicker::make('tanggal_kadaluarsa'),
-            Select::make('id_supplier')
-                ->label('Supplier')
-                ->relationship('supplier', 'nama_supplier')
-                ->preload()
-                ->nullable(),
-        ]);
+            ->components([
+                TextInput::make('kode_obat')->required(),
+                TextInput::make('nama_obat')->required(),
+                TextInput::make('jenis_obat'),
+                TextInput::make('kategori'),
+                TextInput::make('satuan'),
+                TextInput::make('stok')->numeric()->default(0),
+                TextInput::make('harga_beli')->numeric()->prefix('Rp '),
+                TextInput::make('harga_jual')->numeric()->prefix('Rp '),
+                DatePicker::make('tanggal_kadaluarsa'),
+                Select::make('id_supplier')
+                    ->label('Supplier')
+                    ->relationship('supplier', 'nama_supplier')
+                    ->preload()
+                    ->nullable(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -66,9 +64,9 @@ class ObatResource extends Resource
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                DeleteBulkAction::make(),
-            ]),
-        ]);
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getRelations(): array

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DetailPembelian extends Model
 {
     protected $table = 'detail_pembelian';
+
     protected $guarded = ['id'];
 
     public function pembelian()

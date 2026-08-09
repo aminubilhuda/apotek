@@ -2,24 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use BackedEnum;
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
+use App\Filament\Resources\PengaturanResource\Pages;
 use App\Models\Pengaturan;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Forms\Components\Textarea;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use App\Filament\Resources\PengaturanResource\Pages;
-use App\Filament\Resources\PengaturanResource\RelationManagers;
-use App\Filament\Resources\PengaturanResource\Pages\ManagePengaturans;
+use Filament\Tables\Table;
+use Illuminate\Validation\Rules\Unique;
 
 class PengaturanResource extends Resource
 {
@@ -40,7 +35,15 @@ class PengaturanResource extends Resource
                 Forms\Components\TextInput::make('key')
                     ->label('Kunci')
                     ->required()
-                    ->unique(ignoreRecord: true)
+                    ->unique(modifyRuleUsing: function (Unique $rule) {
+                        $user = auth()->user();
+
+                        if ($user === null || $user->isAdmin()) {
+                            return $rule;
+                        }
+
+                        return $rule->where('id_user', $user->id);
+                    })
                     ->maxLength(255),
                 Forms\Components\Textarea::make('value')
                     ->label('Nilai')

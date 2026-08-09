@@ -34,6 +34,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
     public function transaksiPenjualan()
     {
         return $this->hasMany(TransaksiPenjualan::class, 'id_user', 'id');

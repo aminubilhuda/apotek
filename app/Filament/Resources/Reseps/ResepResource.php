@@ -2,24 +2,22 @@
 
 namespace App\Filament\Resources\Reseps;
 
-use BackedEnum;
-use App\Models\Resep;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
+use App\Filament\Resources\Reseps\Pages\CreateResep;
 use App\Filament\Resources\Reseps\Pages\EditResep;
 use App\Filament\Resources\Reseps\Pages\ListReseps;
-use App\Filament\Resources\Reseps\Pages\CreateResep;
-use App\Filament\Resources\Reseps\Schemas\ResepForm;
-use App\Filament\Resources\Reseps\Tables\ResepsTable;
+use App\Models\Resep;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class ResepResource extends Resource
 {

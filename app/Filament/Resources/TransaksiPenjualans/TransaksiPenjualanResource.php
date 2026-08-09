@@ -2,32 +2,24 @@
 
 namespace App\Filament\Resources\TransaksiPenjualans;
 
-use BackedEnum;
-use App\Models\Obat;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use App\Models\TransaksiPenjualan;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
-
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Grid;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Forms\Components\Repeater;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\DatePicker;
-use App\Filament\Resources\TransaksiPenjualans\RelationManagers;
+use App\Filament\Resources\TransaksiPenjualans\Pages\CreateTransaksiPenjualan;
 use App\Filament\Resources\TransaksiPenjualans\Pages\EditTransaksiPenjualan;
 use App\Filament\Resources\TransaksiPenjualans\Pages\ListTransaksiPenjualans;
-use App\Filament\Resources\TransaksiPenjualans\Pages\CreateTransaksiPenjualan;
-use App\Filament\Resources\TransaksiPenjualans\Schemas\TransaksiPenjualanForm;
-use App\Filament\Resources\TransaksiPenjualans\Tables\TransaksiPenjualansTable;
-use App\Filament\Resources\TransaksiPenjualans\RelationManagers\DetailTransaksiRelationManager;
+use App\Models\Obat;
+use App\Models\TransaksiPenjualan;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class TransaksiPenjualanResource extends Resource
 {
@@ -59,7 +51,7 @@ class TransaksiPenjualanResource extends Resource
                                         $obat = Obat::find($state);
                                         $harga = $obat->harga_jual ?? 0;
                                         $set('harga_satuan', $harga);
-                                        $set('subtotal', $harga * (int)$get('jumlah'));
+                                        $set('subtotal', $harga * (int) $get('jumlah'));
                                         // Update grand total
                                         $allDetails = $get('../../detailTransaksi');
                                         $grandTotal = collect($allDetails)->sum('subtotal');
@@ -74,7 +66,7 @@ class TransaksiPenjualanResource extends Resource
                                     ->reactive()
                                     ->live(debounce: 250)
                                     ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                        $set('subtotal', (float)$get('harga_satuan') * (int)$state);
+                                        $set('subtotal', (float) $get('harga_satuan') * (int) $state);
                                         // Update grand total
                                         $allDetails = $get('../../detailTransaksi');
                                         $grandTotal = collect($allDetails)->sum('subtotal');
@@ -221,7 +213,7 @@ class TransaksiPenjualanResource extends Resource
     // Fungsi bantu untuk menghitung detail transaksi
     private function calculateDetailTransaksi(array $data): array
     {
-        if (!isset($data['detailTransaksi']) || !is_array($data['detailTransaksi'])) {
+        if (! isset($data['detailTransaksi']) || ! is_array($data['detailTransaksi'])) {
             return $data;
         }
 

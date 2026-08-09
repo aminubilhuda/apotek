@@ -2,22 +2,20 @@
 
 namespace App\Filament\Resources\Dokters;
 
-use BackedEnum;
-use App\Models\Dokter;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
+use App\Filament\Resources\Dokters\Pages\CreateDokter;
 use App\Filament\Resources\Dokters\Pages\EditDokter;
 use App\Filament\Resources\Dokters\Pages\ListDokters;
-use App\Filament\Resources\Dokters\Pages\CreateDokter;
-use App\Filament\Resources\Dokters\Schemas\DokterForm;
-use App\Filament\Resources\Dokters\Tables\DoktersTable;
+use App\Models\Dokter;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class DokterResource extends Resource
 {
@@ -56,7 +54,8 @@ class DokterResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
-    } 
+    }
+
     public static function getRelations(): array
     {
         return [

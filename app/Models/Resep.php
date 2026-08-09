@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ScopedByUser;
 use Illuminate\Database\Eloquent\Model;
 
 class Resep extends Model
 {
+    use ScopedByUser;
+
     protected $table = 'resep';
+
     protected $primaryKey = 'id_resep';
-    protected $fillable = ['id_dokter', 'id_pelanggan', 'tanggal_resep', 'catatan'];
+
+    protected $fillable = ['id_dokter', 'id_pelanggan', 'tanggal_resep', 'catatan', 'id_user'];
 
     public function dokter()
     {

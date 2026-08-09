@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ScopedByUser;
 use Illuminate\Database\Eloquent\Model;
 
 class TransaksiPenjualan extends Model
 {
+    use ScopedByUser;
+
     protected $table = 'transaksi_penjualan';
+
     protected $primaryKey = 'id_transaksi';
+
     protected $fillable = ['tanggal_transaksi', 'id_pelanggan', 'total_harga', 'metode_pembayaran', 'id_user'];
 
     protected $casts = [

@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\ScopedByUser;
 use Illuminate\Database\Eloquent\Model;
 
 class Pembelian extends Model
 {
+    use ScopedByUser;
+
     protected $table = 'pembelian';
+
     protected $primaryKey = 'id_pembelian';
+
     protected $fillable = ['tanggal_pembelian', 'id_supplier', 'total_harga', 'id_user'];
 
     public function supplier()

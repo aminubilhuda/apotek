@@ -2,26 +2,24 @@
 
 namespace App\Filament\Resources\Pembelians;
 
-use BackedEnum;
-use App\Models\Pembelian;
-use Filament\Tables\Table;
-use Filament\Schemas\Schema;
-use Filament\Actions\EditAction;
-use Filament\Resources\Resource;
-use Filament\Support\Icons\Heroicon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Repeater;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
+use App\Filament\Resources\Pembelians\Pages\CreatePembelian;
 use App\Filament\Resources\Pembelians\Pages\EditPembelian;
 use App\Filament\Resources\Pembelians\Pages\ListPembelians;
-use App\Filament\Resources\Pembelians\Pages\CreatePembelian;
-use App\Filament\Resources\Pembelians\Schemas\PembelianForm;
-use App\Filament\Resources\Pembelians\Tables\PembeliansTable;
+use App\Models\Pembelian;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class PembelianResource extends Resource
 {
@@ -83,8 +81,7 @@ class PembelianResource extends Resource
                                     ->default(1)
                                     ->required()
                                     ->reactive()
-                                    ->afterStateUpdated(fn ($state, $set, $get) => 
-                                        $set('subtotal', $state * $get('harga_beli'))
+                                    ->afterStateUpdated(fn ($state, $set, $get) => $set('subtotal', $state * $get('harga_beli'))
                                     )
                                     ->columnSpan(2),
                                 TextInput::make('harga_beli')
@@ -93,8 +90,7 @@ class PembelianResource extends Resource
                                     ->prefix('Rp')
                                     ->required()
                                     ->reactive()
-                                    ->afterStateUpdated(fn ($state, $set, $get) => 
-                                        $set('subtotal', $state * $get('jumlah'))
+                                    ->afterStateUpdated(fn ($state, $set, $get) => $set('subtotal', $state * $get('jumlah'))
                                     )
                                     ->columnSpan(3),
                                 TextInput::make('subtotal')
@@ -111,7 +107,7 @@ class PembelianResource extends Resource
                                 $total = $details->sum(fn ($item) => ($item['jumlah'] ?? 0) * ($item['harga_beli'] ?? 0));
                                 $set('total_harga', $total);
                             }),
-                        
+
                         TextInput::make('total_harga')
                             ->label('Total Pembelian')
                             ->numeric()
